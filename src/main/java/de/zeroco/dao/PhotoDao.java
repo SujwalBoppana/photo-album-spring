@@ -27,8 +27,7 @@ public class PhotoDao {
 		String sql = "INSERT INTO photo(image) VALUES (?)";
 		return template.update(sql, new Object[] { photoBytes });
 	}
-	public int update(int id ,MultipartFile photo) throws IOException{  
-		byte[] photoBytes = photo.getBytes();
+	public int update(int id ,byte[] photoBytes ) throws IOException{  
 	    String sql="update photo set image= ? where pk_id= ?";  
 	    return template.update(sql,new Object[] {photoBytes,id});  
 	}  

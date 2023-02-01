@@ -9,12 +9,12 @@
 <title>edit</title>
 </head>
 <body>
-<img src="data:image/png;base64,${image}" width="400" height="400" alt="Image">
+<img src="data:image/png;base64,${photos.encoder}" width="400" height="400" alt="Image">
 
 <form action="updateImage" method="post" enctype="multipart/form-data">
 <pre>
 
-	<input type="hidden" name="pk_id" value="${pk_id}">
+	<input type="hidden" name="pk_id" value="${photos.id}">
 	Photo: <input type="file" name="photo"> <br>
 	<input type="submit" value="Submit">
 </pre>

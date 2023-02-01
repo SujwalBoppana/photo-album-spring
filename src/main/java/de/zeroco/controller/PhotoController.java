@@ -2,12 +2,10 @@ package de.zeroco.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,46 +38,45 @@ public class PhotoController {
 	}
 	
 	@RequestMapping("/upload")
-	public String upload() {
+	public String uploadPage() {
 		return "upload";
 	}
 
 	@RequestMapping("/viewphoto")
-	public String view(@RequestParam int pk_id, Model model) throws SQLException, ClassNotFoundException {
-		Photo photos = dao.getPhotoById(pk_id);
-		photos.setEncoder(Base64.getEncoder().encodeToString(photos.getImage()));
-		model.addAttribute("image", photos.getEncoder());
+	public String view(@RequestParam("pk_id") int pk_id, Model model) throws SQLException, ClassNotFoundException {
+		Photo photos = service.getImgById(pk_id);
+		if (photos==null) 
+			model.addAttribute("message", "no data found");
+		else {
+			model.addAttribute("photos", photos);
+			model.addAttribute("message", "data found");
+		}
 		return "status";
 	}
 
 	@RequestMapping("/viewAll")
 	public String list(Model model) throws IOException {
-		List<Photo> photos = dao.photoList();
-		for (Photo photo : photos) {
-			photo.setEncoder(Base64.getEncoder().encodeToString(photo.getImage()));
-		}
+		List<Photo> photos = service.photoList();
  		model.addAttribute("image", photos);
 		return "ViewAll";
 	}
 
 	@RequestMapping(value = "/deleteimg/{id}", method = RequestMethod.GET)
 	public String delete(@PathVariable int id) {
-		dao.delete(id);
+		service.delete(id);
 		return "redirect:/viewAll";
 	}
 
 	@RequestMapping(value = "/editimg/{id}")
 	public String edit(@PathVariable int id, Model m) {
-		Photo photos = dao.getPhotoById(id);
-		photos.setEncoder(Base64.getEncoder().encodeToString(photos.getImage()));
-		m.addAttribute("image", photos.getEncoder());
-		m.addAttribute("pk_id", photos.getId());
+		Photo photos = service.getImgById(id);
+		m.addAttribute("photos", photos);
 		return "edit";
 	}
 	
     @RequestMapping(value="/editimg/updateImage",method = RequestMethod.POST)  
     public String editsave(@RequestParam("photo") MultipartFile filePart,@RequestParam("pk_id") int id) throws IOException{  
-        dao.update(id,filePart);  
+        service.update(id,filePart);  
         return "redirect:/viewAll";  
     } 
 

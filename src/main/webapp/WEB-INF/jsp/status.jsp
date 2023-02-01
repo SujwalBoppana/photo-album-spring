@@ -6,8 +6,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>image</title>
+<title>view All</title>
 </head>
-<img src="data:image/png;base64,${image}" width="400" height="400" alt="Image">
+<h3>${message}</h3>
+<img src="data:image/png;base64,${photos.encoder}" width="400" height="400" alt="Image">
 </body>
 </html>

@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import de.zeroco.dao.PhotoDao;
-import de.zeroco.service.PhotoService;
 
 @Configuration
 @EnableWebMvc
