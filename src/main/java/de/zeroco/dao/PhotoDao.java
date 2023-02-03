@@ -9,10 +9,11 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.web.multipart.MultipartFile;
 
 import de.zeroco.mapper.PhotoMapper;
+import de.zeroco.mapper.UserMapper;
 import de.zeroco.pojo.Photo;
+import de.zeroco.pojo.User;
 
 public class PhotoDao {
 
@@ -22,8 +23,7 @@ public class PhotoDao {
 		template = new JdbcTemplate(dataSource);
 	}
 
-	public int inserRecords(MultipartFile photo) throws IOException {
-		byte[] photoBytes = photo.getBytes();
+	public int inserRecords(byte [] photoBytes) throws IOException {
 		String sql = "INSERT INTO photo(image) VALUES (?)";
 		return template.update(sql, new Object[] { photoBytes });
 	}
@@ -54,6 +54,12 @@ public class PhotoDao {
 	    String sql="delete from photo where pk_id="+id+"";  
 	    return template.update(sql);  
 	}  
+	
+	public List<User> validate(String userName, String password) {
+		String sql = "SELECT * FROM user WHERE user_name = ? AND password = ?";
+		List<User> user = template.query(sql, new Object [] {userName,password}, new UserMapper());
+		return user;
+	}
 	
 	
 }
