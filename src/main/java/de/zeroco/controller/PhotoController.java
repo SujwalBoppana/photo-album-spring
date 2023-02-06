@@ -25,7 +25,7 @@ public class PhotoController {
 	@Autowired
 	PhotoService service;
 	
-	@RequestMapping("/InsertImage")
+	@RequestMapping(value = "/InsertImage",method = RequestMethod.POST)
 	public String save(@RequestParam("photos") MultipartFile[] filePart, Model model) throws IOException {
 		String message=service.insert(filePart);
 		if(message.contains("not allowed")) {
@@ -57,7 +57,7 @@ public class PhotoController {
 		return "status";
 	}
 
-	@RequestMapping("/viewAll")
+	@RequestMapping(value = "/viewAll",method = RequestMethod.GET)
 	public String viewAll(Model model) throws IOException {
 		List<Photo> photos = service.photoList();
  		model.addAttribute("image", photos);
